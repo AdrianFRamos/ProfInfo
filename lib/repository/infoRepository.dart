@@ -52,13 +52,13 @@ class InfoRepository extends GetxController {
 
       // 🔍 Passo 1: Buscar por Área
       List<InfoModel> filteredList = allInfo.where((info) {
-        return info.area.toLowerCase().contains(normalizedQuery);
+        return info.tipo.toLowerCase().contains(normalizedQuery);
       }).toList();
 
       if (filteredList.isEmpty) {
         // 🔍 Passo 2: Buscar por Público-Alvo
         filteredList = allInfo.where((info) {
-          return info.publicoAlvo.toLowerCase().contains(normalizedQuery);
+          return info.area.toLowerCase().contains(normalizedQuery);
         }).toList();
       }
 

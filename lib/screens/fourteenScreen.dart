@@ -138,7 +138,10 @@ class FourteenScreen extends StatelessWidget {
 
   Future<void> _launchWebsite(String url) async {
     final Uri uri = Uri.parse(url);
-    if (!await launchUrl(uri)) {
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
       throw 'Não foi possível abrir o site';
     }
   }

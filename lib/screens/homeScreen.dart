@@ -2,6 +2,7 @@ import 'package:profinfo/screens/secondScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:profinfo/widgets/bottomBarWidget.dart';
 import '../const/colors.dart';
 import '../controllers/infoController.dart';
 import '../models/informacoesModel.dart';
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: HomeAppBar(),
       drawer: Drawer(
         child: FutureBuilder<List<String>>(
-          future: infoController.getNewArea(),
+          future: infoController.getNewTipo(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -79,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               );
             } else {
-              final newArea = snapshot.data!;
+              final newTipo = snapshot.data!;
               return ListView(
                 padding: EdgeInsets.zero,
                 children: [
@@ -95,14 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  ...newArea.map((area) {
+                  ...newTipo.map((tipo) {
                     return ListTile(
-                      title: Text('Nova Informação Adicionada: $area'),
+                      title: Text('Nova Informação Adicionada: $tipo'),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SecondScreen(area: area),
+                            builder: (context) => SecondScreen(tipo: tipo),
                           ),
                         );
                         infoController.markNotificationsAsRead();
@@ -177,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         future: searchQuery.isEmpty
                         ? infoController.allInfo()
                         : infoController.searchInfo(searchQuery).then((result) {
-                            debugPrint("Resultado da API para '$searchQuery': ${result.map((e) => e.area).toList()}");
+                            debugPrint("Resultado da API para '$searchQuery': ${result.map((e) => e.tipo).toList()}");
                             return result;
                           }),
                         builder: (context, snapshot) {
@@ -191,19 +192,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             final informacoes = snapshot.data!;
                             debugPrint("Dados encontrados: ${informacoes.length}"); // Log para depuração
 
-                            final uniqueAreas = informacoes
-                              .map((info) => info.area)
-                              .where((area) => area.toLowerCase().contains(searchQuery))
+                            final uniqueTipos = informacoes
+                              .map((info) => info.tipo)
+                              .where((tipo) => tipo.toLowerCase().contains(searchQuery))
                               .toSet()
                               .toList();
-                            if (uniqueAreas.isEmpty) {
+                            if (uniqueTipos.isEmpty) {
                               debugPrint("Nenhum item corresponde à pesquisa");
                             }
                             return Wrap(
                               spacing: 8,
                               runSpacing: 8,
-                              children: uniqueAreas.map((area) {
-                                return buildGridItem(area); // Só um card por área
+                              children: uniqueTipos.map((tipo) {
+                                return buildGridItem(tipo); // Só um card por área
                               }).toList(),
                             );
                           }
@@ -218,8 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-
       ),
+      bottomNavigationBar: BottomBarWidget(),
     );
   }
 }

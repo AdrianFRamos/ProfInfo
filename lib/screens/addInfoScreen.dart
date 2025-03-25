@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:profinfo/const/types.dart';
 import 'package:profinfo/controllers/infoController.dart';
 import 'package:profinfo/widgets/appBarWidget.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -17,6 +19,15 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   final FirebaseStorage storage = FirebaseStorage.instance;
   bool uploading = false;
   double total = 0;
+  String? tipoSelecionado;
+  String? areaSelecionada;
+  String? publicoAlvoSelecionado;
+  String? turnoSelecionado;
+
+  final tipos = TypesCursos();
+  final areas = TypesAreas();
+  final publicoAlvo = TypesPublicoAlvo();
+  final turno = TypesTurno();
 
   Future<XFile?> getImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -74,15 +85,46 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                TextFormField(
-                  controller: controller.area,
+                DropdownButtonFormField<String>(
+                  value: tipoSelecionado,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.manage_search_sharp,
-                      color: Colors.black,
-                    ), 
-                    labelText: 'Area do Curso'
+                    prefixIcon: Icon(Icons.class_, color: Colors.black),
+                    labelText: 'Tipo do Curso',
+                    border: OutlineInputBorder(),
                   ),
+                  items: TypesCursos.tiposCurso.map((tipo) {
+                    return DropdownMenuItem(
+                      value: tipo,
+                      child: Text(tipo),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      tipoSelecionado = value!;
+                      controller.tipo.text = value;
+                    });
+                  },
+                ),
+                SizedBox(height: 15),
+                DropdownButtonFormField<String>(
+                  value: areaSelecionada,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.manage_search_sharp, color: Colors.black),
+                    labelText: 'Área do Curso',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: TypesAreas.areaCurso.map((area) {
+                    return DropdownMenuItem(
+                      value: area,
+                      child: Text(area),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      areaSelecionada = value!;
+                      controller.area.text = value;
+                    });
+                  },
                 ),
                 SizedBox(height: 15),
                 TextFormField(
@@ -99,47 +141,78 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                 TextFormField(
                   controller: controller.descricaoCurso,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.book_sharp,
-                      color: Colors.black,
-                    ), 
-                    labelText: 'Descrição do Curso'
+                    prefixIcon: Icon(Icons.book_sharp, color: Colors.black),
+                    labelText: 'Descrição do Curso',
+                    border: OutlineInputBorder(),
                   ),
-                  maxLines: null, 
                   keyboardType: TextInputType.multiline,
+                  maxLines: null, 
                 ),
                 SizedBox(height: 15),
-                TextFormField(
-                  controller: controller.publicoAlvo,
+                DropdownButtonFormField<String>(
+                  value: publicoAlvoSelecionado,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.people,
-                      color: Colors.black,
-                    ), 
-                    labelText: 'Público Alvo'
+                    prefixIcon: Icon(Icons.people, color: Colors.black),
+                    labelText: 'Público Alvo',
+                    border: OutlineInputBorder(),
                   ),
+                  items: TypesPublicoAlvo.publicoAlvo.map((publicoAlvo) {
+                    return DropdownMenuItem(
+                      value: publicoAlvo,
+                      child: Text(publicoAlvo),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      publicoAlvoSelecionado = value!;
+                      controller.publicoAlvo.text = value;
+                    });
+                  },
                 ),
                 SizedBox(height: 15),
                 TextFormField(
                   controller: controller.duracao,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.access_time,
-                      color: Colors.black,
-                    ), 
-                    labelText: 'Duração'
+                    prefixIcon: Icon(Icons.access_time, color: Colors.black),
+                    labelText: 'Duração',
                   ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly, // só números
+                  ],
+                  onChanged: (value) {
+                    if (value.isEmpty) return;
+
+                    // Remove " Horas" se já tiver
+                    final onlyNumbers = value.replaceAll(RegExp(r'\D'), '');
+
+                    // Atualiza com " Horas"
+                    controller.duracao.value = TextEditingValue(
+                      text: "$onlyNumbers Horas",
+                      selection: TextSelection.collapsed(offset: "$onlyNumbers Horas".length),
+                    );
+                  },
                 ),
                 SizedBox(height: 15),
-                TextFormField(
-                  controller: controller.turno,
+                DropdownButtonFormField<String>(
+                  value: turnoSelecionado,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.nightlight_round,
-                      color: Colors.black,
-                    ), 
-                    labelText: 'Turno'
+                    prefixIcon: Icon(Icons.nightlight_round, color: Colors.black),
+                    labelText: 'Turno',
+                    border: OutlineInputBorder(),
                   ),
+                  items: TypesTurno.turno.map((turno) {
+                    return DropdownMenuItem(
+                      value: turno,
+                      child: Text(turno),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      turnoSelecionado = value!;
+                      controller.turno.text = value;
+                    });
+                  },
                 ),
                 SizedBox(height: 15),
                 TextFormField(
@@ -151,6 +224,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                     ), 
                     labelText: 'Número de Vagas'
                   ),
+                  keyboardType: TextInputType.number,
                 ),
                 SizedBox(height: 15),
                 TextFormField(
@@ -162,6 +236,8 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                     ), 
                     labelText: 'Breve Conteúdo'
                   ),
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null, 
                 ),
                 SizedBox(height: 15),
                 TextFormField(

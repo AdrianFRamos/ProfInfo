@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 class InfoController extends GetxController {
   static InfoController get instance => Get.find();
+  final TextEditingController tipo = TextEditingController();
   final TextEditingController area = TextEditingController();
   final TextEditingController nomeCurso = TextEditingController();
   final TextEditingController descricaoCurso = TextEditingController();
@@ -24,7 +25,7 @@ class InfoController extends GetxController {
   final infoRepository = Get.put(InfoRepository());
 
   DateTime lastNotificationTimestamp = DateTime.now().subtract(Duration(days: 1));
-  RxList<String> newarea = <String>[].obs;
+  RxList<String> newTipo = <String>[].obs;
 
   Future<List<InfoModel>> allInfo() async {
     try {
@@ -54,6 +55,7 @@ class InfoController extends GetxController {
 
       final informacoes = InfoModel(
         id: '',
+        tipo: tipo.text.trim(),
         area: area.text.trim(),
         nomeCurso: nomeCurso.text.trim(),
         descricaoCurso: descricaoCurso.text.trim(),
@@ -70,7 +72,7 @@ class InfoController extends GetxController {
       final id = await infoRepository.addInfo(informacoes);
       informacoes.id = id;
 
-      newarea.add(informacoes.area);
+      newTipo.add(informacoes.tipo);
 
       snackBar.sucessSnackBar(title: 'Parabéns', message: 'Informação adicionada com sucesso.');
 
@@ -84,6 +86,7 @@ class InfoController extends GetxController {
   }
 
   void loadInfo(InfoModel info) {
+    tipo.text = info.tipo;
     area.text = info.area;
     nomeCurso.text = info.nomeCurso;
     descricaoCurso.text = info.descricaoCurso;
@@ -104,6 +107,7 @@ class InfoController extends GetxController {
 
       final informacoes = InfoModel(
         id: id,
+        tipo: tipo.text.trim(),
         area: area.text.trim(),
         nomeCurso: nomeCurso.text.trim(),
         descricaoCurso: descricaoCurso.text.trim(),
@@ -143,6 +147,7 @@ class InfoController extends GetxController {
   }
 
   void resetFormField() {
+    tipo.clear();
     area.clear();
     nomeCurso.clear();
     descricaoCurso.clear();
@@ -157,15 +162,15 @@ class InfoController extends GetxController {
     _cleanController.clear();
   }
 
-  Future<List<String>> getNewArea() async {
+  Future<List<String>> getNewTipo() async {
     try {
       final informacoes = await allInfo();
-      final newGrandAreas = informacoes
+      final newTipo = informacoes
           .where((info) => info.dateTime!.isAfter(lastNotificationTimestamp))
-          .map((info) => info.area)
+          .map((info) => info.tipo)
           .toSet()
           .toList();
-      return newGrandAreas;
+      return newTipo;
     } catch (e) {
       return [];
     }

@@ -2,46 +2,88 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../const/colors.dart';
-import '../middleware/iconsHomeScreen.dart';
+import '../middleware/imagesHomeScreen.dart';
 import '../screens/secondScreen.dart';
 
-Widget buildGridItem(String area) {
-    final IconData icon = getIconForArea(area);
+Widget buildGridItem(String tipo) {
+  final String imagePath = getImageForTipo(tipo); // Função que retorna caminho da imagem
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      child: GestureDetector(
-        onTap: () {
-          Get.to(() => SecondScreen(area: area), transition: Transition.fadeIn);
-        },
-        child: Container(
-          width: 170,
-          height: 160,
-          decoration: BoxDecoration(
-            color: paleBlue,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                size: 48,
-                color: Colors.black,
-              ),
-              SizedBox(height: 8),
-              Text(
-                area,
-                style: GoogleFonts.montserrat(
-                  color: Colors.black,
-                  fontSize: 15,
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: GestureDetector(
+      onTap: () {
+        Get.to(() => SecondScreen(tipo: tipo), transition: Transition.fadeIn);
+      },
+      child: Container(
+        width: 200,
+        height: 200,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 6,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+              child: Container(
+                height: 120,
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  imagePath,
+                  height: 100,
+                  fit: BoxFit.cover,
                 ),
-                textAlign: TextAlign.center,
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+              child: Column(
+                children: [
+                  Text(
+                    tipo,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.to(() => SecondScreen(tipo: tipo), transition: Transition.fadeIn);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: softBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'ACESSE',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}

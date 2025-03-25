@@ -7,7 +7,6 @@ import 'package:profinfo/utils/helper.dart';
 import 'package:profinfo/widgets/profileMenuWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../repository/authRepository.dart';
 
 class ProfileScreen extends StatelessWidget {

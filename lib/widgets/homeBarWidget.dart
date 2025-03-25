@@ -22,8 +22,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             },
           ),
           Obx(() {
-            print(infoController.newarea);
-            if (infoController.newarea.isNotEmpty) {
+            print(infoController.newTipo);
+            if (infoController.newTipo.isNotEmpty) {
               return Positioned(
                 right: 0,
                 top: 0,
@@ -39,7 +39,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                   child: Center(
                     child: Text(
-                      '${infoController.newarea.length}',
+                      '${infoController.newTipo.length}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,

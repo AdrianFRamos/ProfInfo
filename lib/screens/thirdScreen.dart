@@ -6,10 +6,10 @@ import '../widgets/infoCardWidget.dart';
 
 class ThirdScreen extends StatelessWidget {
   static const routeName = "/ThirdScreen";
-  final String? publicoAlvo;
+  final String? area;
   final List<InfoModel> infoList;
 
-  const ThirdScreen({Key? key, required this.infoList, this.publicoAlvo}) : super(key: key);
+  const ThirdScreen({Key? key, required this.infoList, this.area}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class ThirdScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Informações sobre ${publicoAlvo ?? ''}',
+              'Informações sobre ${area ?? ''}',
               style: GoogleFonts.montserrat(
                 color: Colors.black,
                 fontSize: 20,

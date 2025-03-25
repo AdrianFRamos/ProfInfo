@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class InfoModel {
   String id;
+  final String tipo;
   final String area;
   final String nomeCurso;
   final String descricaoCurso;
@@ -16,6 +17,7 @@ class InfoModel {
 
   InfoModel({
     required this.id,
+    required this.tipo,
     required this.area,
     required this.nomeCurso,
     required this.descricaoCurso,
@@ -29,11 +31,12 @@ class InfoModel {
     this.dateTime,
   });
 
-  static InfoModel empty() => InfoModel(id: '',area: '', nomeCurso: '', descricaoCurso: '', publicoAlvo: '', duracao: '', turno: '', numeroVagas: '', breveConteudo: '', enderecoWeb: '', telefone: '', dateTime: null);
+  static InfoModel empty() => InfoModel(id: '',area: '', tipo: '',nomeCurso: '', descricaoCurso: '', publicoAlvo: '', duracao: '', turno: '', numeroVagas: '', breveConteudo: '', enderecoWeb: '', telefone: '', dateTime: null);
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'tipo': tipo,
       'area': area,
       'nomeCurso': nomeCurso,
       'descricaoCurso': descricaoCurso,
@@ -51,6 +54,7 @@ class InfoModel {
   factory InfoModel.fromMap(Map<String, dynamic> data) {
     return InfoModel(
       id: data['id'] as String,
+      tipo: data['tipo'] as String? ?? '',
       area: data['area'] as String? ?? '',
       nomeCurso: data['nomeCurso'] as String? ?? '',
       descricaoCurso: data['descricaoCurso'] as String? ?? '',
@@ -69,6 +73,7 @@ class InfoModel {
     final data = snapshot.data() as Map<String, dynamic>;
     return InfoModel(
       id: snapshot.id,
+      tipo: data['tipo'] ?? '',
       area: data['area'] ?? '',
       nomeCurso: data['nomeCurso'] ?? '',
       descricaoCurso: data['descricaoCurso'] ?? '',

@@ -8,9 +8,9 @@ import '../screens/thirdScreen.dart';
 
 class SecondScreen extends StatelessWidget {
   static const routeName = "/SecondScreen";
-  final String? area;
+  final String? tipo;
 
-  const SecondScreen({Key? key, this.area}) : super(key: key);
+  const SecondScreen({Key? key, this.tipo}) : super(key: key);
   
 
   @override
@@ -20,7 +20,7 @@ class SecondScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          area ?? 'Erro ao carregar dados',
+          tipo ?? 'Erro ao carregar dados',
           style: GoogleFonts.bebasNeue(
             fontSize: 40,
             color: Colors.black,
@@ -49,17 +49,17 @@ class SecondScreen extends StatelessWidget {
             return Center(child: Text('Nenhuma informação disponível'));
           } else {
             final informacoes = snapshot.data!;
-            final uniquePublicoAlvo = informacoes
-                .where((info) => info.area == area)
-                .map((info) => info.publicoAlvo)
+            final uniqueArea = informacoes
+                .where((info) => info.tipo == tipo)
+                .map((info) => info.area)
                 .toSet()
                 .toList();
             return ListView.builder(
-              itemCount: uniquePublicoAlvo.length,
+              itemCount: uniqueArea.length,
               itemBuilder: (context, index) {
-                final publicoAlvo = uniquePublicoAlvo[index];
-                final infoList = informacoes.where((info) => info.publicoAlvo == publicoAlvo).toList();
-                return buildGridItem(publicoAlvo: publicoAlvo, infoList: infoList);
+                final area = uniqueArea[index];
+                final infoList = informacoes.where((info) => info.area == area).toList();
+                return buildGridItem(area: area, infoList: infoList);
               },
             );
           }
@@ -68,13 +68,13 @@ class SecondScreen extends StatelessWidget {
     );
   }
 
-  Widget buildGridItem({required String publicoAlvo, required List<InfoModel> infoList}) {
+  Widget buildGridItem({required String area, required List<InfoModel> infoList}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: GestureDetector(
         onTap: () {
           Get.to(
-            () => ThirdScreen(infoList: infoList, publicoAlvo: publicoAlvo),
+            () => ThirdScreen(infoList: infoList, area: area),
             transition: Transition.fadeIn,
           );
         },
@@ -88,7 +88,7 @@ class SecondScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                publicoAlvo,
+                area,
                 style: GoogleFonts.montserrat(
                   color: Colors.black,
                   fontSize: 18,
