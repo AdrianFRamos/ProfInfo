@@ -13,7 +13,7 @@ class BottomBarWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset(
-            'images/BottomBar1.jpg',
+            'assets/assets/images/BottomBar1.jpg',
             height: 200.0,
             width: 200.0,
           ),
@@ -23,7 +23,7 @@ class BottomBarWidget extends StatelessWidget {
             style: GoogleFonts.bebasNeue(fontSize: 20),
           ),
           Image.asset(
-            'images/BottomBar2.jpg',
+            'assets/images/BottomBar2.jpg',
             height: 200.0,
             width: 200.0,
           ),

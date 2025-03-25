@@ -1,4 +1,3 @@
-import 'package:profinfo/const/colors.dart';
 import 'package:profinfo/controllers/infoController.dart';
 import 'package:profinfo/firebase_options.dart';
 import 'package:profinfo/middleware/authMidleware.dart';
