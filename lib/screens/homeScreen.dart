@@ -199,10 +199,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             if (uniqueAreas.isEmpty) {
                               debugPrint("Nenhum item corresponde à pesquisa");
                             }
-
                             return Wrap(
-                              children: informacoes.map((info) {
-                                return buildGridItem(info.area); // Exibe a área primeiro
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: uniqueAreas.map((area) {
+                                return buildGridItem(area); // Só um card por área
                               }).toList(),
                             );
                           }
