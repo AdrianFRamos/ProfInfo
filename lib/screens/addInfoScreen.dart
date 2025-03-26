@@ -23,11 +23,13 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   String? areaSelecionada;
   String? publicoAlvoSelecionado;
   String? turnoSelecionado;
+  String? tipoDuracaoSelecionado = TypesDuracao.duracao.first;
 
   final tipos = TypesCursos();
   final areas = TypesAreas();
   final publicoAlvo = TypesPublicoAlvo();
   final turno = TypesTurno();
+  final duracao = TypesDuracao();
 
   Future<XFile?> getImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -170,28 +172,46 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                   },
                 ),
                 SizedBox(height: 15),
-                TextFormField(
-                  controller: controller.duracao,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.access_time, color: Colors.black),
-                    labelText: 'Duração',
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly, // só números
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: TextFormField(
+                        controller: controller.duracao,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.timer, color: Colors.black),
+                          labelText: 'Duração',
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      flex: 2,
+                      child: DropdownButtonFormField<String>(
+                        value: TypesDuracao.duracao.contains(tipoDuracaoSelecionado) ? tipoDuracaoSelecionado : null,
+                        items: TypesDuracao.duracao.map((String tipo) {
+                          return DropdownMenuItem<String>(
+                            value: tipo,
+                            child: Text(tipo),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            tipoDuracaoSelecionado = value!;
+                            final numero = controller.duracao.text.replaceAll(RegExp(r'\D'), '');
+                            controller.duracao.text = "$numero $tipoDuracaoSelecionado";
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Unidade',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
                   ],
-                  onChanged: (value) {
-                    if (value.isEmpty) return;
-
-                    // Remove " Horas" se já tiver
-                    final onlyNumbers = value.replaceAll(RegExp(r'\D'), '');
-
-                    // Atualiza com " Horas"
-                    controller.duracao.value = TextEditingValue(
-                      text: "$onlyNumbers Horas",
-                      selection: TextSelection.collapsed(offset: "$onlyNumbers Horas".length),
-                    );
-                  },
                 ),
                 SizedBox(height: 15),
                 DropdownButtonFormField<String>(

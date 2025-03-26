@@ -20,6 +20,8 @@ class InfoController extends GetxController {
   final TextEditingController _cleanController = TextEditingController();
   GlobalKey<FormState> infoFormKey = GlobalKey<FormState>();
 
+  String? tipoDuracaoSelecionado;
+
   RxBool refreshData = true.obs;
   final Rx<InfoModel> selecionarInfo = InfoModel.empty().obs;
   final infoRepository = Get.put(InfoRepository());
@@ -60,7 +62,7 @@ class InfoController extends GetxController {
         nomeCurso: nomeCurso.text.trim(),
         descricaoCurso: descricaoCurso.text.trim(),
         publicoAlvo: publicoAlvo.text.trim(),
-        duracao: duracao.text.trim(),
+        duracao: ("${duracao.text.trim()} ${tipoDuracaoSelecionado ?? ''}").trim(),
         turno: turno.text.trim(),
         numeroVagas: numeroVagas.text.trim(),
         breveConteudo: breveConteudo.text.trim(),
@@ -91,7 +93,14 @@ class InfoController extends GetxController {
     nomeCurso.text = info.nomeCurso;
     descricaoCurso.text = info.descricaoCurso;
     publicoAlvo.text = info.publicoAlvo;
-    duracao.text = info.duracao;
+    final partes = info.duracao.trim().split(' ');
+    if (partes.length == 2) {
+      duracao.text = partes[0];
+      tipoDuracaoSelecionado = partes[1]; 
+    } else {
+      duracao.text = info.duracao; 
+      tipoDuracaoSelecionado = null;
+    }
     turno.text = info.turno;
     numeroVagas.text = info.numeroVagas;
     breveConteudo.text = info.breveConteudo;
@@ -112,7 +121,7 @@ class InfoController extends GetxController {
         nomeCurso: nomeCurso.text.trim(),
         descricaoCurso: descricaoCurso.text.trim(),
         publicoAlvo: publicoAlvo.text.trim(),
-        duracao: duracao.text.trim(),
+        duracao: ("${duracao.text.trim()} ${tipoDuracaoSelecionado ?? ''}").trim(),
         turno: turno.text.trim(),
         numeroVagas: numeroVagas.text.trim(),
         breveConteudo: breveConteudo.text.trim(),

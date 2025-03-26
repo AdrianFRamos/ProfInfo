@@ -28,6 +28,7 @@ class TypesAreas {
 
 class TypesPublicoAlvo {
   static const List<String> publicoAlvo = [
+    'Todos',
     'Professores',
     'Gestão',
     'Pais',
@@ -44,3 +45,15 @@ class TypesTurno{
     'A escolher',
   ];
 }
+class TypesDuracao {
+  static List<String> duracao = [
+    'Minutos',
+    'Horas',
+    'Dias',
+    'Semanas',
+    'Meses',
+    'Anos',
+  ];
+}
+
+

@@ -20,6 +20,10 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
   String? areaSelecionada;
   String? publicoAlvoSelecionado;
   String? turnoSelecionado;
+  String? duracaoSelecionada;
+
+  final TextEditingController duracaoNumerica = TextEditingController();
+  String? tipoDuracaoSelecionado = 'Horas'; 
 
   final InfoController infoController = Get.find();
 
@@ -32,6 +36,21 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
     areaSelecionada = widget.info.area;
     publicoAlvoSelecionado = widget.info.publicoAlvo;
     turnoSelecionado = widget.info.turno;
+    final duracaoTexto = InfoController.instance.duracao.text;
+
+    if (duracaoTexto.isNotEmpty) {
+      final partes = duracaoTexto.split(" ");
+
+      if (partes.length == 2) {
+        final numero = partes[0];
+        final tipo = partes[1][0].toUpperCase() + partes[1].substring(1).toLowerCase();
+
+        if (TypesDuracao.duracao.contains(tipo)) {
+          tipoDuracaoSelecionado = tipo;
+          InfoController.instance.duracao.text = numero;
+        }
+      }
+    }
   }
 
   @override
@@ -166,25 +185,63 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
                 ),
               ),
               SizedBox(height: 15),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: TextFormField(
-                  controller: infoController.duracao,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[100],
-                    prefixIcon: Icon(Icons.access_time, color: Colors.black),
-                    labelText: 'Duração',
-                    suffixText: 'Horas',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: TextFormField(
+                        controller: duracaoNumerica,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          prefixIcon: Icon(Icons.access_time, color: Colors.black),
+                          labelText: 'Duração',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        onChanged: (value) {
+                          infoController.duracao.text =
+                              "$value ${tipoDuracaoSelecionado ?? ''}";
+                        },
+                      ),
                     ),
                   ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                ),
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: DropdownButtonFormField<String>(
+                        value: TypesDuracao.duracao.contains(tipoDuracaoSelecionado) ? tipoDuracaoSelecionado : null,
+                        decoration: InputDecoration(
+                          labelText: 'Unidade',
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        items: TypesDuracao.duracao.map((tipo) {
+                          return DropdownMenuItem<String>(
+                            value: tipo,
+                            child: Text(tipo),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            tipoDuracaoSelecionado = value!;
+                            final numero = infoController.duracao.text.replaceAll(RegExp(r'\D'), '');
+                            infoController.duracao.text = "$numero $tipoDuracaoSelecionado";
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 15),
               Padding(

@@ -117,105 +117,119 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ),
-      body: GestureDetector(
-        onTap: () {
-          if (showSearchField) {
-            setState(() {
-              showSearchField = false;
-            });
-          }
-        },
+      body: SingleChildScrollView(
         child: Container(
           color: WhiteBlue,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 16),
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        showSearchField = true;
-                        searchFocusNode.requestFocus();
-                      });
-                    },
-                    child: Text(
-                      'Em que podemos ajudar?',
-                      style: GoogleFonts.montserrat(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                if (showSearchField)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: TextField(
-                      controller: searchController,
-                      focusNode: searchFocusNode,
-                      decoration: InputDecoration(
-                        labelText: 'Pesquisar',
-                        border: OutlineInputBorder(),
-                        suffixIcon: Icon(Icons.search),
-                      ),
-                      onChanged: (value) {
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      if (showSearchField) {
                         setState(() {
-                          searchQuery = value.toLowerCase();
+                          showSearchField = false;
                         });
-                        debugPrint("Search Query: $searchQuery"); // Log para depuração
-                      },
+                      }
+                    },
+                    child: Container(
+                      color: WhiteBlue,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 16),
+                            Center(
+                              child: TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    showSearchField = true;
+                                    searchFocusNode.requestFocus();
+                                  });
+                                },
+                                child: Text(
+                                  'Em que podemos ajudar?',
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            if (showSearchField)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: TextField(
+                                  controller: searchController,
+                                  focusNode: searchFocusNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Pesquisar',
+                                    border: OutlineInputBorder(),
+                                    suffixIcon: Icon(Icons.search),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      searchQuery = value.toLowerCase();
+                                    });
+                                    debugPrint("Search Query: $searchQuery"); // Log para depuração
+                                  },
+                                ),
+                              ),
+                            SizedBox(height: 16),
+                            Obx(() {
+                              if (infoController.refreshData.value) {
+                                return FutureBuilder<List<InfoModel>>(
+                                  future: searchQuery.isEmpty
+                                  ? infoController.allInfo()
+                                  : infoController.searchInfo(searchQuery).then((result) {
+                                      debugPrint("Resultado da API para '$searchQuery': ${result.map((e) => e.tipo).toList()}");
+                                      return result;
+                                    }),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return Center(child: CircularProgressIndicator());
+                                    } else if (snapshot.hasError) {
+                                      return Center(child: Text('Erro ao carregar dados'));
+                                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                      return Center(child: Text('Nenhuma informação disponível'));
+                                    } else {
+                                      final informacoes = snapshot.data!;
+                                      debugPrint("Dados encontrados: ${informacoes.length}"); // Log para depuração
+                
+                                      final uniqueTipos = informacoes
+                                        .map((info) => info.tipo)
+                                        .where((tipo) => tipo.toLowerCase().contains(searchQuery))
+                                        .toSet()
+                                        .toList();
+                                      if (uniqueTipos.isEmpty) {
+                                        debugPrint("Nenhum item corresponde à pesquisa");
+                                      }
+                                      return Wrap(
+                                        spacing: 8,
+                                        runSpacing: 8,
+                                        children: uniqueTipos.map((tipo) {
+                                          return buildGridItem(tipo); // Só um card por área
+                                        }).toList(),
+                                      );
+                                    }
+                                  },
+                                );
+                              } else {
+                                return Center(child: CircularProgressIndicator());
+                              }
+                            }),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                SizedBox(height: 16),
-                Expanded(
-                  child: Obx(() {
-                    if (infoController.refreshData.value) {
-                      return FutureBuilder<List<InfoModel>>(
-                        future: searchQuery.isEmpty
-                        ? infoController.allInfo()
-                        : infoController.searchInfo(searchQuery).then((result) {
-                            debugPrint("Resultado da API para '$searchQuery': ${result.map((e) => e.tipo).toList()}");
-                            return result;
-                          }),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (snapshot.hasError) {
-                            return Center(child: Text('Erro ao carregar dados'));
-                          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                            return Center(child: Text('Nenhuma informação disponível'));
-                          } else {
-                            final informacoes = snapshot.data!;
-                            debugPrint("Dados encontrados: ${informacoes.length}"); // Log para depuração
-
-                            final uniqueTipos = informacoes
-                              .map((info) => info.tipo)
-                              .where((tipo) => tipo.toLowerCase().contains(searchQuery))
-                              .toSet()
-                              .toList();
-                            if (uniqueTipos.isEmpty) {
-                              debugPrint("Nenhum item corresponde à pesquisa");
-                            }
-                            return Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
-                              children: uniqueTipos.map((tipo) {
-                                return buildGridItem(tipo); // Só um card por área
-                              }).toList(),
-                            );
-                          }
-                        },
-                      );
-                    } else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  }),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

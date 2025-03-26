@@ -6,26 +6,31 @@ class BottomBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
       height: 60.0,
       color: softBlue,
+      padding: EdgeInsets.symmetric(horizontal: 12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset(
-            'assets/assets/images/BottomBar1.jpg',
+            'assets/images/BottomBar1.jpg',
             height: 200.0,
             width: 200.0,
+            fit: BoxFit.contain,
           ),
-          Text(
-            'Designed by: TheSentinel', 
-            selectionColor: Colors.black,
-            style: GoogleFonts.bebasNeue(fontSize: 20),
+          Flexible(
+            child: Text(
+              'Designed by: TheSentinel',
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.bebasNeue(fontSize: 20, color: Colors.black),
+            ),
           ),
           Image.asset(
             'assets/images/BottomBar2.jpg',
             height: 200.0,
             width: 200.0,
+            fit: BoxFit.contain,
           ),
         ],
       ),
