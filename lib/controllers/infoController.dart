@@ -1,5 +1,6 @@
 import 'package:profinfo/models/informacoesModel.dart';
 import 'package:profinfo/repository/infoRepository.dart';
+import 'package:profinfo/utils/extractOnlyNumber.dart';
 import 'package:profinfo/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -62,7 +63,7 @@ class InfoController extends GetxController {
         nomeCurso: nomeCurso.text.trim(),
         descricaoCurso: descricaoCurso.text.trim(),
         publicoAlvo: publicoAlvo.text.trim(),
-        duracao: ("${duracao.text.trim()} ${tipoDuracaoSelecionado ?? ''}").trim(),
+        duracao: ("${extractOnlyNumber(duracao.text)} ${tipoDuracaoSelecionado ?? ''}").trim(),
         turno: turno.text.trim(),
         numeroVagas: numeroVagas.text.trim(),
         breveConteudo: breveConteudo.text.trim(),
@@ -121,7 +122,7 @@ class InfoController extends GetxController {
         nomeCurso: nomeCurso.text.trim(),
         descricaoCurso: descricaoCurso.text.trim(),
         publicoAlvo: publicoAlvo.text.trim(),
-        duracao: ("${duracao.text.trim()} ${tipoDuracaoSelecionado ?? ''}").trim(),
+        duracao: ("${extractOnlyNumber(duracao.text)} ${tipoDuracaoSelecionado ?? ''}").trim(),
         turno: turno.text.trim(),
         numeroVagas: numeroVagas.text.trim(),
         breveConteudo: breveConteudo.text.trim(),
