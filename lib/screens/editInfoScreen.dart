@@ -23,7 +23,6 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
   String? duracaoSelecionada;
 
   final TextEditingController duracaoNumerica = TextEditingController();
-  String? tipoDuracaoSelecionado = 'Horas'; 
 
   final InfoController infoController = Get.find();
 
@@ -46,7 +45,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
         final tipo = partes[1][0].toUpperCase() + partes[1].substring(1).toLowerCase();
 
         if (TypesDuracao.duracao.contains(tipo)) {
-          tipoDuracaoSelecionado = tipo;
+          infoController.tipoDuracaoSelecionado = tipo;
           InfoController.instance.duracao.text = numero;
         }
       }
@@ -206,7 +205,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         onChanged: (value) {
                           infoController.duracao.text =
-                              "$value ${tipoDuracaoSelecionado ?? ''}";
+                              "$value ${infoController.tipoDuracaoSelecionado}";
                         },
                       ),
                     ),
@@ -216,7 +215,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16.0),
                       child: DropdownButtonFormField<String>(
-                        value: TypesDuracao.duracao.contains(tipoDuracaoSelecionado) ? tipoDuracaoSelecionado : null,
+                        value: TypesDuracao.duracao.contains(infoController.tipoDuracaoSelecionado) ? infoController.tipoDuracaoSelecionado : null,
                         decoration: InputDecoration(
                           labelText: 'Unidade',
                           filled: true,
@@ -233,9 +232,9 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
                         }).toList(),
                         onChanged: (value) {
                           setState(() {
-                            tipoDuracaoSelecionado = value!;
+                            infoController.tipoDuracaoSelecionado = value!;
                             final numero = infoController.duracao.text.replaceAll(RegExp(r'\D'), '');
-                            infoController.duracao.text = "$numero $tipoDuracaoSelecionado";
+                            infoController.duracao.text = "$numero ${infoController.tipoDuracaoSelecionado}";
                           });
                         },
                       ),

@@ -1,3 +1,4 @@
+import 'package:profinfo/const/types.dart';
 import 'package:profinfo/models/informacoesModel.dart';
 import 'package:profinfo/repository/infoRepository.dart';
 import 'package:profinfo/utils/extractOnlyNumber.dart';
@@ -21,7 +22,7 @@ class InfoController extends GetxController {
   final TextEditingController _cleanController = TextEditingController();
   GlobalKey<FormState> infoFormKey = GlobalKey<FormState>();
 
-  String? tipoDuracaoSelecionado;
+  String tipoDuracaoSelecionado = TypesDuracao.duracao.first;
 
   RxBool refreshData = true.obs;
   final Rx<InfoModel> selecionarInfo = InfoModel.empty().obs;
@@ -63,7 +64,7 @@ class InfoController extends GetxController {
         nomeCurso: nomeCurso.text.trim(),
         descricaoCurso: descricaoCurso.text.trim(),
         publicoAlvo: publicoAlvo.text.trim(),
-        duracao: ("${extractOnlyNumber(duracao.text)} ${tipoDuracaoSelecionado ?? ''}").trim(),
+        duracao: ("${extractOnlyNumber(duracao.text)} ${tipoDuracaoSelecionado}").trim(),
         turno: turno.text.trim(),
         numeroVagas: numeroVagas.text.trim(),
         breveConteudo: breveConteudo.text.trim(),
@@ -95,12 +96,12 @@ class InfoController extends GetxController {
     descricaoCurso.text = info.descricaoCurso;
     publicoAlvo.text = info.publicoAlvo;
     final partes = info.duracao.trim().split(' ');
-    if (partes.length == 2) {
+    if (partes.isNotEmpty) {
       duracao.text = partes[0];
-      tipoDuracaoSelecionado = partes[1]; 
+      tipoDuracaoSelecionado = (partes.length > 1) ? partes[1] : TypesDuracao.duracao.first;
     } else {
-      duracao.text = info.duracao; 
-      tipoDuracaoSelecionado = null;
+      duracao.text = '';
+      tipoDuracaoSelecionado = TypesDuracao.duracao.first;
     }
     turno.text = info.turno;
     numeroVagas.text = info.numeroVagas;
@@ -122,7 +123,7 @@ class InfoController extends GetxController {
         nomeCurso: nomeCurso.text.trim(),
         descricaoCurso: descricaoCurso.text.trim(),
         publicoAlvo: publicoAlvo.text.trim(),
-        duracao: ("${extractOnlyNumber(duracao.text)} ${tipoDuracaoSelecionado ?? ''}").trim(),
+        duracao: ("${extractOnlyNumber(duracao.text)} ${tipoDuracaoSelecionado}").trim(),
         turno: turno.text.trim(),
         numeroVagas: numeroVagas.text.trim(),
         breveConteudo: breveConteudo.text.trim(),
