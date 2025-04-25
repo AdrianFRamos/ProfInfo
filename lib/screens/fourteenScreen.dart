@@ -122,17 +122,36 @@ class FourteenScreen extends StatelessWidget {
 
   Widget _buildEnrollButton(String url) {
     return Center(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: softBlue,
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        ),
-        onPressed: () => _launchWebsite(url),
-        child: Text(
-          'INSCREVA-SE',
-          style: GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-      ),
+      child: info!.inscricoesEncerradas
+          ? Container(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: Text(
+                "Inscrições Encerradas",
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              decoration: BoxDecoration(
+                color: softBlue,
+                borderRadius: BorderRadius.circular(8),
+              ),
+          )
+          : ElevatedButton(
+              onPressed: () => _launchWebsite(url),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: softBlue,
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
+              child: Text(
+                "INSCREVA-SE",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
     );
   }
 

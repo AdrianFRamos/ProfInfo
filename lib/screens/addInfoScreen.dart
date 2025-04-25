@@ -24,6 +24,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   String? publicoAlvoSelecionado;
   String? turnoSelecionado;
   String? tipoDuracaoSelecionado = TypesDuracao.duracao.first;
+  bool inscricoesEncerradas = false;
 
   final tipos = TypesCursos();
   final areas = TypesAreas();
@@ -66,8 +67,11 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
     }
   }
 
-  void _submitForm() {
+  void _submitForm({required bool encerrado}) {
     final controller = InfoController.instance;
+
+    controller.inscricoesEncerradas = encerrado; 
+
     if (controller.infoFormKey.currentState!.validate()) {
       controller.addNewInfo();
     }
@@ -281,32 +285,41 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                     labelText: 'Telefone'
                   ),
                 ),
+                SizedBox(height: 15),
                 Container(
                   margin: EdgeInsets.all(10),
                   child: Row(
                     children: [
                       uploading
                       ? const Padding(
-                        padding: EdgeInsets.only(right: 12),
-                        child: Center(
-                          child: SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 3,
-                              color: Colors.amber,
+                          padding: EdgeInsets.only(right: 12),
+                          child: Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                color: Colors.amber,
+                              ),
                             ),
                           ),
-                        ),
-                      ) 
+                        ) 
                       : IconButton(
-                        onPressed: selectUploadImage,
-                        icon: const Icon(Icons.upload),
+                          onPressed: selectUploadImage,
+                          icon: const Icon(Icons.upload),
+                        ),
+                      SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: () => _submitForm(encerrado: false), 
+                        child: Text("Salvar"),
                       ),
                       SizedBox(width: 10),
                       ElevatedButton(
-                        onPressed: _submitForm,
-                        child: Text("Salvar"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        onPressed: () => _submitForm(encerrado: true), 
+                        child: Text("Salvar Encerrado"),
                       ),
                     ],
                   ),

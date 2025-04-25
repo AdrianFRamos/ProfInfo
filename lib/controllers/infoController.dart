@@ -20,6 +20,7 @@ class InfoController extends GetxController {
   final TextEditingController enderecoWeb = TextEditingController();
   final TextEditingController telefone = TextEditingController();
   final TextEditingController _cleanController = TextEditingController();
+  bool inscricoesEncerradas = false;
   GlobalKey<FormState> infoFormKey = GlobalKey<FormState>();
 
   String tipoDuracaoSelecionado = TypesDuracao.duracao.first;
@@ -71,6 +72,7 @@ class InfoController extends GetxController {
         enderecoWeb: enderecoWeb.text.trim(),
         telefone: telefone.text.trim(),
         dateTime: DateTime.now(),
+        inscricoesEncerradas: inscricoesEncerradas,
       );
 
       final id = await infoRepository.addInfo(informacoes);

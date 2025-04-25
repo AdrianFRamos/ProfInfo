@@ -1,6 +1,7 @@
 import 'package:profinfo/const/colors.dart';
 import 'package:profinfo/controllers/loginController.dart';
 import 'package:profinfo/screens/forgetPassword.dart';
+import 'package:profinfo/screens/homeScreen.dart';
 //import 'package:profinfo/screens/signUpScreen.dart';
 import 'package:profinfo/utils/helper.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,15 @@ class LoginScreen extends StatelessWidget {
     final controller = Get.put(LoginController());
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: softBlue,
+          leading: IconButton(
+            onPressed: (){
+              Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+            }, 
+            icon: Icon(Icons.arrow_back_ios_new),
+          ),
+        ),
         body: SingleChildScrollView(
           child: SizedBox(
             height: MediaQuery.of(context).size.height,

@@ -14,6 +14,7 @@ class InfoModel {
   final String enderecoWeb;
   final String? telefone;
   final DateTime? dateTime;
+  final bool inscricoesEncerradas;
 
   InfoModel({
     required this.id,
@@ -27,11 +28,12 @@ class InfoModel {
     required this.numeroVagas,
     required this.breveConteudo,
     required this.enderecoWeb,
+    this.inscricoesEncerradas = false,
     this.telefone,
     this.dateTime,
   });
 
-  static InfoModel empty() => InfoModel(id: '',area: '', tipo: '',nomeCurso: '', descricaoCurso: '', publicoAlvo: '', duracao: '', turno: '', numeroVagas: '', breveConteudo: '', enderecoWeb: '', telefone: '', dateTime: null);
+  static InfoModel empty() => InfoModel(id: '',area: '', tipo: '',nomeCurso: '', descricaoCurso: '', publicoAlvo: '', duracao: '', turno: '', numeroVagas: '', breveConteudo: '', enderecoWeb: '', telefone: '', dateTime: null, inscricoesEncerradas: false);
 
   Map<String, dynamic> toJson() {
     return {
@@ -48,6 +50,7 @@ class InfoModel {
       'enderecoWeb': enderecoWeb,
       'telefone': telefone,
       'dateTime': dateTime != null ? Timestamp.fromDate(dateTime!) : null,
+      'inscricoesEncerradas': inscricoesEncerradas,
     };
   }
 
@@ -66,6 +69,7 @@ class InfoModel {
       enderecoWeb: data['enderecoWeb'] as String? ?? '',
       telefone: data['telefone'] as String?,
       dateTime: data['dateTime'] != null ? (data['dateTime'] as Timestamp).toDate() : null,
+      inscricoesEncerradas: data['inscricoesEncerradas'] as bool? ?? false,
     );
   }
 
@@ -85,6 +89,7 @@ class InfoModel {
       enderecoWeb: data['enderecoWeb'] ?? '',
       telefone: data['telefone']?.toString(),
       dateTime: data['dateTime'] != null ? (data['dateTime'] as Timestamp).toDate() : null,
+      inscricoesEncerradas: data['inscricoesEncerradas'] ?? false,
     );
   }
 }

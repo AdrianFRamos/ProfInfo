@@ -17,6 +17,7 @@ import 'package:profinfo/screens/thirdScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:profinfo/utils/logout.dart';
 
 import 'screens/fourteenScreen.dart';
 import 'screens/infoPersonScreen.dart';
@@ -26,6 +27,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
     .then((value) => Get.put(AuthRepository())
   );
+  await logout();
   Get.put(InfoController());
   runApp(const MyApp());
 }

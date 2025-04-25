@@ -13,16 +13,17 @@ class TypesCursos {
 class TypesAreas {
   static const List<String> areaCurso = [
     'TEA',
-    'Deficiencias',
-    'Praticas',
+    'Deficiências',
+    'Práticas',
     'Síndrome de Down',
     'TDAH',
     'Inclusão',
     'ABA',
     'SRM',
     'Familia',
-    'Politicas Publicas',
+    'Políticas Públicas',
     'AEE',
+    'Diversas Áreas',
   ];
 }
 
@@ -43,6 +44,7 @@ class TypesTurno{
     'Noturno',
     'Integral',
     'A escolher',
+
   ];
 }
 class TypesDuracao {

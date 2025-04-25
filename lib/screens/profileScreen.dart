@@ -1,7 +1,7 @@
 import 'package:profinfo/const/colors.dart';
 import 'package:profinfo/screens/allInfoScreen.dart';
-import 'package:profinfo/screens/homeScreen.dart';
-/* import 'package:profinfo/screens/infoPersonScreen.dart';
+/*import 'package:profinfo/screens/homeScreen.dart';
+import 'package:profinfo/screens/infoPersonScreen.dart';
 import 'package:profinfo/screens/updateprofileScreen.dart'; */
 import 'package:profinfo/utils/helper.dart';
 import 'package:profinfo/widgets/profileMenuWidget.dart';
@@ -20,12 +20,6 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: softBlue,
-        leading: IconButton(
-          onPressed: (){
-            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-          }, 
-          icon: Icon(Icons.arrow_back_ios_new),
-        ),
         title: Text(
           "Perfil",
           style: Theme.of(context).textTheme.headlineMedium,
