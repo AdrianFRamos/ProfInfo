@@ -364,7 +364,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
                     },
                     icon: Icon(Icons.save_alt),
                     label: Text(
-                      'SALVAR',
+                      'Salvar',
                       style: TextStyle(fontSize: 16, letterSpacing: 1),
                     ),
                     style: ElevatedButton.styleFrom(

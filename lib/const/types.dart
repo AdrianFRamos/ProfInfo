@@ -4,7 +4,7 @@ class TypesCursos {
     'Bacharelado', 
     'Licenciatura', 
     'Tecnólogo', 
-    'Pós-graduação',
+    'Especialização',
     'Mestrado',
     'Doutorado'
   ];
@@ -54,6 +54,8 @@ class TypesDuracao {
     'Dias',
     'Semanas',
     'Meses',
+    'Bimestral',
+    'Semestral',
     'Anos',
   ];
 }

@@ -311,7 +311,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                       SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () => _submitForm(encerrado: false), 
-                        child: Text("Salvar"),
+                        child: Text("Salvar Curso"),
                       ),
                       SizedBox(width: 10),
                       ElevatedButton(
@@ -319,7 +319,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           backgroundColor: Colors.red,
                         ),
                         onPressed: () => _submitForm(encerrado: true), 
-                        child: Text("Salvar Encerrado"),
+                        child: Text("Salvar Curso Encerrado"),
                       ),
                     ],
                   ),
