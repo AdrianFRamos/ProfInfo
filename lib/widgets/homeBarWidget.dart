@@ -73,7 +73,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           Container(
             margin: EdgeInsets.only(top: 8),
             child: Text(
-              'ProfInfo',
+              'formaçãodeprofessoresUVA',
               style: GoogleFonts.bebasNeue(fontSize: 40),
             ),
           ),

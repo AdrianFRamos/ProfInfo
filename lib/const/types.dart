@@ -1,9 +1,9 @@
 class TypesCursos {
   static const List<String> tiposCurso = [
     'Curso de extensão', 
-    'Bacharelado', 
-    'Licenciatura', 
     'Tecnólogo', 
+    'Licenciatura', 
+    'Bacharelado', 
     'Especialização',
     'Mestrado',
     'Doutorado'

@@ -1,3 +1,4 @@
+import 'package:profinfo/const/types.dart';
 import 'package:profinfo/screens/secondScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final InfoController infoController = Get.find<InfoController>();
   final TextEditingController searchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
+  final List<String> ordemTipos = TypesCursos.tiposCurso;
   bool showSearchField = false;
   String searchQuery = '';
 
@@ -176,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     setState(() {
                                       searchQuery = value.toLowerCase();
                                     });
-                                    debugPrint("Search Query: $searchQuery"); // Log para depuração
+                                    debugPrint("Search Query: $searchQuery"); 
                                   },
                                 ),
                               ),
@@ -184,41 +186,48 @@ class _HomeScreenState extends State<HomeScreen> {
                             Obx(() {
                               if (infoController.refreshData.value) {
                                 return FutureBuilder<List<InfoModel>>(
-                                  future: searchQuery.isEmpty
-                                  ? infoController.allInfo()
-                                  : infoController.searchInfo(searchQuery).then((result) {
-                                      debugPrint("Resultado da API para '$searchQuery': ${result.map((e) => e.tipo).toList()}");
-                                      return result;
-                                    }),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState == ConnectionState.waiting) {
-                                      return Center(child: CircularProgressIndicator());
-                                    } else if (snapshot.hasError) {
-                                      return Center(child: Text('Erro ao carregar dados'));
-                                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                      return Center(child: Text('Nenhuma informação disponível'));
-                                    } else {
-                                      final informacoes = snapshot.data!;
-                                      debugPrint("Dados encontrados: ${informacoes.length}"); // Log para depuração
-                
-                                      final uniqueTipos = informacoes
+                                future: searchQuery.isEmpty
+                                    ? infoController.allInfo()
+                                    : infoController.searchInfo(searchQuery).then((result) {
+                                        debugPrint("Resultado da API para '$searchQuery': ${result.map((e) => e.tipo).toList()}");
+                                        return result;
+                                      }),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return Center(child: CircularProgressIndicator());
+                                  } else if (snapshot.hasError) {
+                                    return Center(child: Text('Erro ao carregar dados'));
+                                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                    return Center(child: Text('Nenhuma informação disponível'));
+                                  } else {
+                                    final informacoes = snapshot.data!;
+                                    final tiposEncontrados = informacoes
                                         .map((info) => info.tipo)
                                         .where((tipo) => tipo.toLowerCase().contains(searchQuery))
                                         .toSet()
                                         .toList();
-                                      if (uniqueTipos.isEmpty) {
-                                        debugPrint("Nenhum item corresponde à pesquisa");
-                                      }
-                                      return Wrap(
-                                        spacing: 8,
-                                        runSpacing: 8,
-                                        children: uniqueTipos.map((tipo) {
-                                          return buildGridItem(tipo); // Só um card por área
-                                        }).toList(),
-                                      );
-                                    }
-                                  },
-                                );
+
+                                    // Ordena os tipos conforme a ordem desejada
+                                    tiposEncontrados.sort((a, b) {
+                                      int indexA = ordemTipos.indexOf(a);
+                                      int indexB = ordemTipos.indexOf(b);
+
+                                      if (indexA == -1) indexA = 999; // Itens não listados na ordem vão pro final
+                                      if (indexB == -1) indexB = 999;
+
+                                      return indexA.compareTo(indexB);
+                                    });
+
+                                    return Wrap(
+                                      spacing: 8,
+                                      runSpacing: 8,
+                                      children: tiposEncontrados.map((tipo) => buildGridItem(tipo)).toList(),
+                                    );
+                                  }
+                                },
+                              );
+                              } else if (infoController.refreshData.value == false) {
+                                return Center(child: Text('Nenhuma informação disponível'));
                               } else {
                                 return Center(child: CircularProgressIndicator());
                               }

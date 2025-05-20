@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "profinfo-d1f2c"
-  }
+    "default": "profinfo-d1f2c",
+    "production": "formacaodeprofessoresuva-37a82"
+  },
+  "targets": {},
+  "etags": {}
 }

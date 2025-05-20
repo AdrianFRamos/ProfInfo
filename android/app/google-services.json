@@ -1,18 +1,13 @@
 {
-  "hosting": {
-    "public": "build/web",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [{ "source": "**", "destination": "/index.html" }]
-  },
   "project_info": {
-    "project_number": "1063777965196",
-    "project_id": "profinfo-d1f2c",
-    "storage_bucket": "profinfo-d1f2c.firebasestorage.app"
+    "project_number": "197217911603",
+    "project_id": "formacaodeprofessoresuva-37a82",
+    "storage_bucket": "formacaodeprofessoresuva-37a82.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1063777965196:android:195f128e163aabe8c357a9",
+        "mobilesdk_app_id": "1:197217911603:android:b96cafe2b6dcc707597446",
         "android_client_info": {
           "package_name": "com.example.profinfo"
         }
@@ -20,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC6JIWbvT03Zy6hE27drbb9WEg-YaaYjKk"
+          "current_key": "AIzaSyBSIhWTSQTftkqSciTLiMrFNslinhj_-74"
         }
       ],
       "services": {

@@ -6,7 +6,7 @@ import '../middleware/imagesHomeScreen.dart';
 import '../screens/secondScreen.dart';
 
 Widget buildGridItem(String tipo) {
-  final String imagePath = getImageForTipo(tipo); // Função que retorna caminho da imagem
+  final String imagePath = getImageForTipo(tipo); 
 
   return Padding(
     padding: const EdgeInsets.all(8.0),
@@ -36,11 +36,12 @@ Widget buildGridItem(String tipo) {
               borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
               child: Container(
                 height: 120,
+                width: 120,
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
                   imagePath,
                   height: 100,
-                  fit: BoxFit.cover,
+                  width: 100,
                 ),
               ),
             ),
