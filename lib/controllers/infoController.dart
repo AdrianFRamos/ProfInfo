@@ -33,14 +33,17 @@ class InfoController extends GetxController {
   RxList<String> newTipo = <String>[].obs;
 
   Future<List<InfoModel>> allInfo() async {
-    try {
-      final informacoes = await infoRepository.fetchInfo();
-      return informacoes;
-    } catch (e) {
-      snackBar.errorSnackBar(title: 'Um erro ocorreu. Tente novamente', message: e.toString());
-      return [];
-    }
+  try {
+    final informacoes = await infoRepository.fetchInfo();
+    return informacoes;
+  } catch (e) {
+    snackBar.errorSnackBar(
+      title: 'Um erro ocorreu. Tente novamente',
+      message: 'Ocorreu algo de errado ao buscar as informações. Tente novamente',
+    );
+    return [];
   }
+}
 
   Future<List<InfoModel>> searchInfo(String query) async {
     try {

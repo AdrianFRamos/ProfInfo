@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:197217911603:android:b96cafe2b6dcc707597446",
+        "mobilesdk_app_id": "1:197217911603:android:f4a23ae4ed9669da597446",
         "android_client_info": {
-          "package_name": "com.example.profinfo"
+          "package_name": "com.example.formacaodeprofessoresUVA"
         }
       },
       "oauth_client": [],

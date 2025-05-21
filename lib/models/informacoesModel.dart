@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:profinfo/utils/parsedateTime.dart';
 
 class InfoModel {
   String id;
@@ -68,13 +69,15 @@ class InfoModel {
       breveConteudo: data['breveConteudo'] as String? ?? '',
       enderecoWeb: data['enderecoWeb'] as String? ?? '',
       telefone: data['telefone'] as String?,
-      dateTime: data['dateTime'] != null ? (data['dateTime'] as Timestamp).toDate() : null,
+      dateTime: parseDateTime(data['dateTime']),
       inscricoesEncerradas: data['inscricoesEncerradas'] as bool? ?? false,
     );
   }
 
   factory InfoModel.fromDocumentSnapshot(DocumentSnapshot snapshot) {
-    final data = snapshot.data() as Map<String, dynamic>;
+    final raw = snapshot.data();
+    final data = raw is Map<String, dynamic> ? raw : <String, dynamic>{};
+
     return InfoModel(
       id: snapshot.id,
       tipo: data['tipo'] ?? '',
@@ -88,7 +91,7 @@ class InfoModel {
       breveConteudo: data['breveConteudo'] ?? '',
       enderecoWeb: data['enderecoWeb'] ?? '',
       telefone: data['telefone']?.toString(),
-      dateTime: data['dateTime'] != null ? (data['dateTime'] as Timestamp).toDate() : null,
+      dateTime: parseDateTime(data['dateTime']),
       inscricoesEncerradas: data['inscricoesEncerradas'] ?? false,
     );
   }

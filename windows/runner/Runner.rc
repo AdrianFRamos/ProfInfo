@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "profinfo" "\0"
+            VALUE "FileDescription", "formacaodeprofessoresUVA" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "profinfo" "\0"
+            VALUE "InternalName", "formacaodeprofessoresUVA" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "profinfo.exe" "\0"
-            VALUE "ProductName", "profinfo" "\0"
+            VALUE "OriginalFilename", "formacaodeprofessoresUVA.exe" "\0"
+            VALUE "ProductName", "formacaodeprofessoresUVA" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

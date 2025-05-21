@@ -15,6 +15,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROFINFO_D1F2C }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_formacaodeprofessoresUVA-37a82 }}
           channelId: live
-          projectId: profinfo-d1f2c
+          projectId: formacaodeprofessoresUVA-37a82
