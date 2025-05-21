@@ -352,6 +352,19 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
               SizedBox(height: 24),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SwitchListTile(
+                  title: Text("Encerrar inscrições"),
+                  value: infoController.inscricoesEncerradas,
+                  onChanged: (value) {
+                    setState(() {
+                      infoController.inscricoesEncerradas = value;
+                    });
+                  },
+                ),
+                ),
+                SizedBox(height: 24),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: SizedBox(
                   width: double.infinity,
                   height: 48,

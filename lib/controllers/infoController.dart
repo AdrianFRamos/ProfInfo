@@ -134,7 +134,8 @@ class InfoController extends GetxController {
         breveConteudo: breveConteudo.text.trim(),
         enderecoWeb: enderecoWeb.text.trim(),
         telefone: telefone.text.trim(),
-        dateTime: DateTime.now(), // Adiciona a data/hora atual
+        dateTime: DateTime.now(), 
+        inscricoesEncerradas: inscricoesEncerradas,
       );
 
       await infoRepository.updateInfo(informacoes);
